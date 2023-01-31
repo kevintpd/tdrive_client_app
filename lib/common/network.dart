@@ -20,6 +20,7 @@ Future<List<Item>> fetchUserItems() async {
 }
 
 Future<int?> login() async{
+  dio.options.headers = server.headers;
   final response = await dio.get(server.apiLogin);
   print(response.data);
   return response.statusCode;
@@ -39,7 +40,6 @@ Future<dynamic> register(String username, String password, String email, String 
 Future<List<Folder>> fetchRoot() async {
   List<Folder> root = [];
   final response = await dio.get(server.apiRoot);
-  print(response.data);
   try {
     if (response.statusCode == 200) {
       response.data.forEach((item) => root.add(Folder.fromJson(item)));
@@ -52,11 +52,44 @@ Future<List<Folder>> fetchRoot() async {
 
 Future<Folder?> fetchFolder(String folderId) async {
   final response = await dio.get(server.apiFolders + folderId, queryParameters: {'expand': '~all'});
-  print(response.data);
   if (response.statusCode == 200) {
     return Folder.fromJson(response.data);
   }
   return null;
+}
+
+Future<dynamic> deleteFolder(String folderId) async{
+  try{
+  final response = await dio.delete(server.apiFolders+folderId);
+  return response.statusCode;
+  }
+  catch (e) {
+    return null;
+  }
+}
+
+Future<dynamic> renameFolder(String folderid, String name) async{
+  try{
+    final response = await dio.put(server.apiFolders + folderid, data: {"Name":name});
+    if(response.statusCode == 200){
+      return response.statusCode;
+    }
+
+  }
+      catch(e){
+    print(e.toString());
+      }
+      return null;
+}
+
+Future<dynamic> newFolder(String ParentfolderId, String name) async{
+  try{
+  final response = await dio.post(server.apiFolders,data: {'Name':name, 'ParentFolder':ParentfolderId});
+  return response.statusCode;
+  }
+      catch(e){
+    return null;
+      }
 }
 
 Future<void> downloadFile(BuildContext context, File file) async {

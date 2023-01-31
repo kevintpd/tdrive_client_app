@@ -1,5 +1,5 @@
 class User {
-  int id;
+  String id;
   String username;
   String email;
   String rootdrive;
@@ -14,7 +14,7 @@ class User {
 
 class Item {
   String id;
-  int ownerId;
+  String ownerId;
   String name;
   String creatorId;
 
@@ -26,15 +26,15 @@ class Item {
 }
 
 class Folder {
-  String id;
-  String name;
-  int ownerId;
-  int creatorId;
-  dynamic parentFolder;
-  List<dynamic> subFolders;
-  List<dynamic> files;
-  String dateCreated;
-  String dateModified;
+  final String id;
+  final String name;
+  final String ownerId;
+  final String creatorId;
+  final dynamic parentFolder;
+  final List<dynamic> subFolders;
+  final List<dynamic> files;
+  final String dateCreated;
+  final String dateModified;
 
   Folder(this.id, this.name, this.ownerId, this.creatorId, this.parentFolder,
       this.subFolders, this.files, this.dateCreated, this.dateModified);
@@ -56,8 +56,8 @@ class Folder {
 class File {
   String id;
   String name;
-  int ownerId;
-  int creatorId;
+  String ownerId;
+  String creatorId;
   String dateUpload;
   String hash;
   Uri fileData;
@@ -116,7 +116,7 @@ class File {
 
 class ShareItem {
   String id;
-  int ownerId;
+  String ownerId;
   List<dynamic> items;
   String root;
   String createdTime;
