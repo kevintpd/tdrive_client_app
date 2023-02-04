@@ -23,7 +23,7 @@ class _LoginRouteState extends State<LoginRoute> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("登录")),
+      appBar: AppBar(title: Text("登录"),automaticallyImplyLeading: false,),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

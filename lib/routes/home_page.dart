@@ -25,7 +25,9 @@ class _HomeRouteState extends State<HomeRoute> {
       appBar: AppBar(
         title: Text("TDrive"),
         actions: [
-          IconButton(onPressed: () => Navigator.of(context).pushNamed("updown"), icon: const Icon(Icons.swap_vert)),
+          IconButton(
+              onPressed: () => Navigator.of(context).pushNamed("updown"),
+              icon: const Icon(Icons.swap_vert)),
         ],
       ),
       body: FutureBuilder<List<Folder>>(
@@ -33,20 +35,19 @@ class _HomeRouteState extends State<HomeRoute> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
-                itemCount: snapshot.data?.length,
+                itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   Folder folder = snapshot.data![index];
                   return FolderTile(folder: folder);
                 });
-          } else if(snapshot.hasError) {
+          } else if (snapshot.hasError) {
             return Center(
               child: ElevatedButton(
                 child: Text("登录"),
                 onPressed: () => Navigator.of(context).pushNamed("login"),
               ),
             );
-          }
-          else{
+          } else {
             return Center(child: const CircularProgressIndicator());
           }
         },
@@ -70,8 +71,8 @@ class _HomeRouteState extends State<HomeRoute> {
             heroTag: 'newFolder',
             onPressed: () {
               showTextInputDialog(
-                  okLabel: "确定",
-                  cancelLabel: "取消",
+                      okLabel: "确定",
+                      cancelLabel: "取消",
                       context: context,
                       textFields: [DialogTextField(initialText: "新建文件夹")],
                       title: "创建新文件夹")
