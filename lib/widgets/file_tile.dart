@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart' as mymodel;
 import 'package:another_flushbar/flushbar.dart';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 
@@ -29,10 +29,10 @@ class _FileTileState extends State<FileTile> {
                 bottomRight: Radius.circular(16.0))),
         child: InkWell(
           onTap: () {
-            showMaterialModalBottomSheet(
+            mymodel.showMaterialModalBottomSheet(
               context: context,
               builder: (context) => SingleChildScrollView(
-                controller: ModalScrollController.of(context),
+                controller: mymodel.ModalScrollController.of(context),
                 child: Column(
                   children: [
                     InkWell(
@@ -42,7 +42,8 @@ class _FileTileState extends State<FileTile> {
                         Flushbar(
                           margin: const EdgeInsets.all(8),
                           borderRadius: BorderRadius.circular(8),
-                          title: '${widget.file.name} [${formatBytes(widget.file.fileSize, 2)}]',
+                          title:
+                              '${widget.file.name} [${widget.file.fileSize}]',
                           message: 'Downloading Started...',
                           icon: Icon(
                             Icons.download_rounded,
@@ -55,53 +56,60 @@ class _FileTileState extends State<FileTile> {
                       },
                       child: const ListTile(
                         leading: Icon(Icons.download_rounded),
-                        title: Text("Download"),
+                        title: Text("下载"),
                       ),
                     ),
                     InkWell(
                       onTap: () {},
                       child: const ListTile(
                         leading: Icon(Icons.share_rounded),
-                        title: Text("Share"),
+                        title: Text("分享"),
                       ),
                     ),
                     InkWell(
                       onTap: () {
-                        // showTextInputDialog(
-                        //         context: context,
-                        //         textFields: [DialogTextField(initialText: widget.file.name)],
-                        //         title: 'New Name')
-                        //     .then((value) async {
-                        //   if (value != null) {
-                        //     var newName = value[0].replaceAll(' ', '');
-                        //     if (newName != '') {
-                        //       print(newName);
-                        //       File newFile = File.clone(widget.file);
-                        //       newFile.name = newName;
-                        //       var response = await updateFile(widget.file, newFile);
-                        //       print(response?.data);
-                        //       setState(() {
-                        //         widget.file = newFile;
-                        //       });
-                        //
-                        //       if (!mounted) return;
-                        //       Navigator.of(context).pop();
-                        //     }
-                        //   }
-                        // });
+                        showTextInputDialog(
+                                okLabel: "确定",
+                                cancelLabel: "取消",
+                                context: context,
+                                textFields: [
+                                  DialogTextField(initialText: widget.file.name)
+                                ],
+                                title: '新文件名')
+                            .then((value) async {
+                          if (value != null) {
+                            var newName = value[0].replaceAll(' ', '');
+                            if (newName != '') {
+                              print(newName);
+                              File newFile = File.clone(widget.file);
+                              newFile.name = newName;
+                              print(widget.file.id);
+                              var response =
+                                  await updateFile(widget.file, newFile);
+                              print(response?.data);
+                              setState(() {
+                                widget.file = newFile;
+                              });
+
+                              if (!mounted) return;
+                              Navigator.of(context).pop();
+                            }
+                          }
+                        });
                       },
                       child: const ListTile(
                         leading: Icon(Icons.drive_file_rename_outline_rounded),
-                        title: Text("Rename"),
+                        title: Text("重命名"),
                       ),
                     ),
                     InkWell(
                       onTap: () {},
                       child: const ListTile(
                         leading: Icon(Icons.drive_file_move_rounded),
-                        title: Text("Move"),
+                        title: Text("移动"),
                       ),
                     ),
+                    //删除，做好了
                     InkWell(
                       onTap: () {
                         showDialog(
@@ -111,25 +119,26 @@ class _FileTileState extends State<FileTile> {
                                     Icons.delete_rounded,
                                     color: Colors.deepOrange[800],
                                   ),
-                                  content: const Text("Do you really want to delete it?"),
+                                  content: const Text("确认删除吗?"),
                                   actions: [
                                     TextButton(
                                         onPressed: () {
+                                          deleteFile(widget.file.id);
                                           Navigator.pop(context);
                                           Navigator.pop(context);
                                         },
-                                        child: const Text("Delete")),
+                                        child: const Text("确认")),
                                     TextButton(
                                         onPressed: () {
                                           Navigator.pop(context);
                                         },
-                                        child: const Text("Cancel"))
+                                        child: const Text("取消"))
                                   ],
                                 ));
                       },
                       child: const ListTile(
                         leading: Icon(Icons.delete_rounded),
-                        title: Text("Delete"),
+                        title: Text("删除"),
                       ),
                     )
                   ],
@@ -140,12 +149,17 @@ class _FileTileState extends State<FileTile> {
           child: Column(
             children: [
               ListTile(
-                leading:const Icon(Icons.file_present_rounded),
+                leading: const Icon(Icons.file_present_rounded),
                 title: Text(widget.file.name),
-                subtitle: Text(widget.file.dateUpload.replaceFirst('T', ' ').split('.')[0]),
+                subtitle: Text(widget.file.dateUpload
+                    .replaceFirst('T', ' ')
+                    .split('.')[0]),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: [Text(formatBytes(widget.file.fileSize, 2)), const Icon(Icons.file_download)],
+                  children: [
+                    Text(widget.file.fileSize),
+                    const Icon(Icons.file_download)
+                  ],
                 ),
               )
             ],

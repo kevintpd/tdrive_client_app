@@ -26,15 +26,15 @@ class Item {
 }
 
 class Folder {
-  final String id;
-  final String name;
-  final String ownerId;
-  final String creatorId;
-  final dynamic parentFolder;
-  final List<dynamic> subFolders;
-  final List<dynamic> files;
-  final String dateCreated;
-  final String dateModified;
+  String id;
+  String name;
+  String ownerId;
+  String creatorId;
+  dynamic parentFolder;
+  List<dynamic> subFolders;
+  List<dynamic> files;
+  String dateCreated;
+  String dateModified;
 
   Folder(this.id, this.name, this.ownerId, this.creatorId, this.parentFolder,
       this.subFolders, this.files, this.dateCreated, this.dateModified);
@@ -51,6 +51,18 @@ class Folder {
         json['DateCreated'],
         json['DateModified']);
   }
+  factory Folder.clone(Folder source) {
+    return Folder(
+        source.id,
+        source.name,
+        source.ownerId,
+        source.creatorId,
+        source.parentFolder,
+        source.subFolders,
+        source.files,
+        source.dateCreated,
+        source.dateModified,);
+  }
 }
 
 class File {
@@ -60,9 +72,9 @@ class File {
   String creatorId;
   String dateUpload;
   String hash;
-  Uri fileData;
+  String fileData;
   String fileType;
-  int fileSize;
+  String fileSize;
   bool isImage;
   String fileTags;
   dynamic parentFolder;

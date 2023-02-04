@@ -4,8 +4,10 @@ import 'package:tdrive_client_app/common/global.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:tdrive_client_app/routes/registerRoute.dart';
+import 'package:tdrive_client_app/routes/upload_download_page.dart';
 import './routes/loginRoute.dart';
 import './routes/home_page.dart';
+import './routes/bottom_navigation_widget.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 Future<void> main() async{
@@ -25,11 +27,15 @@ class MyApp extends StatelessWidget {
       child: Consumer<ThemeProvider>(
         builder: (BuildContext context, ThemeProvider, child){
           return MaterialApp(
-            home: HomeRoute(),
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+            ),
+            home: BottomNavigationWidget(),
             builder: EasyLoading.init(),
             routes: <String, WidgetBuilder>{
               "login": (context) => LoginRoute(),
               "register": (context) => RegisterRoute(),
+              "updown": (context) => UpDownRoute(),
             },
           );
         },

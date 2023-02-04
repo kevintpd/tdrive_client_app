@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart' as mymodel;
 import 'package:tdrive_client_app/common/network.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'renameFolderPopsup.dart';
 import '../models/models.dart';
 import './/routes/folder_view.dart';
+import 'package:adaptive_dialog/adaptive_dialog.dart';
+import '../routes/move_item_view.dart';
+import 'move_tile.dart';
 
 class FolderTile extends StatefulWidget {
-  final Folder folder;
+  Folder folder;
 
-  const FolderTile({Key? key, required this.folder}) : super(key: key);
+  FolderTile({Key? key, required this.folder}) : super(key: key);
 
   @override
   State<FolderTile> createState() => _FolderTileState();
 }
 
 class _FolderTileState extends State<FolderTile> {
-  TextEditingController _foldername = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -29,45 +32,76 @@ class _FolderTileState extends State<FolderTile> {
                 bottomRight: Radius.circular(16.0))),
         child: InkWell(
           onLongPress: () {
-            showMaterialModalBottomSheet(
+            mymodel.showMaterialModalBottomSheet(
               context: context,
               builder: (context) => SingleChildScrollView(
-                controller: ModalScrollController.of(context),
+                controller: mymodel.ModalScrollController.of(context),
                 child: Column(
                   children: [
                     InkWell(
                       onTap: () {},
                       child: const ListTile(
                         leading: Icon(Icons.download_rounded),
-                        title: Text("Download All"),
+                        title: Text("下载"),
                       ),
                     ),
                     InkWell(
                       onTap: () {},
                       child: const ListTile(
                         leading: Icon(Icons.share_rounded),
-                        title: Text("Share"),
+                        title: Text("共享"),
                       ),
                     ),
                     //修改文件夹名称
                     InkWell(
-                      onTap: (){
-                        showDialog(
-                            barrierDismissible: false,
-                            context: context,
-                            builder: (context) {
-                              return RenameDialog(
-                                contentWidget: RenameDialogContent(
-                                  ParentId: widget.folder.id,
-                                  title: "修改文件夹名称",
-                                ),
-                              );
-                            });
+                      onTap: () {
+                        showTextInputDialog(
+                                okLabel: "确定",
+                                cancelLabel: "取消",
+                                context: context,
+                                textFields: [
+                                  DialogTextField(
+                                      initialText: widget.folder.name)
+                                ],
+                                title: "文件夹重命名")
+                            .then((value) async {
+                          if (value != null) {
+                            var foldername = value[0].replaceAll(" ", "");
+                            if (foldername != "") {
+                              Folder newFolder = Folder.clone(widget.folder);
+                              newFolder.name = foldername;
+                              var response =
+                                  updateFolder(widget.folder, newFolder);
+                              if (response != null) {
+                                EasyLoading.showToast("修改成功");
+                                setState(() {
+                                  widget.folder = newFolder;
+                                });
+                                EasyLoading.dismiss();
+                                Navigator.pop(context);
+                              } else {
+                                EasyLoading.showToast("请重新输入文件名");
+                              }
+                              if (!mounted) return;
+                            }
+                          }
+                        });
+                        // showDialog(
+                        //     barrierDismissible: false,
+                        //     context: context,
+                        //     builder: (context) {
+                        //       return RenameDialog(
+                        //         contentWidget: RenameDialogContent(
+                        //           ParentId: widget.folder.id,
+                        //           title: "修改文件夹名称",
+                        //         ),
+                        //       );
+                        //     });
                       },
                       child: const ListTile(
-                            leading: Icon(Icons.drive_file_rename_outline_rounded),
-                            title: Text("Rename"),
-                          ),
+                        leading: Icon(Icons.drive_file_rename_outline_rounded),
+                        title: Text("重命名"),
+                      ),
                     ),
                     // InkWell(
                     //   onTap: () {
@@ -118,25 +152,52 @@ class _FolderTileState extends State<FolderTile> {
                     //   ),
                     // ),
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        //TODO
+                        mymodel.showMaterialModalBottomSheet(
+                          backgroundColor: Colors.transparent,
+                          context: context,
+                          builder: (context) => SingleChildScrollView(
+                            controller: mymodel.ModalScrollController.of(context),
+                            child: MoveItem(viewOfFolder:widget.folder),
+                          ),
+                        );
+                      },
                       child: const ListTile(
                         leading: Icon(Icons.drive_file_move_rounded),
-                        title: Text("Move"),
+                        title: Text("移动"),
                       ),
                     ),
                     //删除按钮
                     InkWell(
                       onTap: () {
-                        setState(() {
-                          final response = deleteFolder(widget.folder.id);
-                          if(response != null){
-                            EasyLoading.showToast("删除成功");
-                          }
-                        });
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                                  icon: Icon(
+                                    Icons.delete_rounded,
+                                    color: Colors.deepOrange[800],
+                                  ),
+                                  content: const Text("确认删除吗？"),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          deleteFolder(widget.folder.id);
+                                          Navigator.pop(context);
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text("确认")),
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text("取消"))
+                                  ],
+                                ));
                       },
                       child: const ListTile(
                         leading: Icon(Icons.delete_rounded),
-                        title: Text("Delete"),
+                        title: Text("删除"),
                       ),
                     )
                   ],
@@ -145,18 +206,23 @@ class _FolderTileState extends State<FolderTile> {
             );
           },
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (BuildContext context) {
               return FolderView(viewOfFolder: widget.folder);
             }));
           },
           child: ListTile(
             leading: const Icon(Icons.folder_rounded),
             title: Text(widget.folder.name),
-            subtitle: Text(widget.folder.dateCreated.replaceFirst('T', ' ').split('.')[0]),
+            subtitle: Text(
+                widget.folder.dateCreated.replaceFirst('T', ' ').split('.')[0]),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: widget.folder.files.isNotEmpty
-                  ? [const Icon(Icons.file_present_rounded), Text(widget.folder.files.length.toString())]
+                  ? [
+                      const Icon(Icons.file_present_rounded),
+                      Text(widget.folder.files.length.toString())
+                    ]
                   : [],
             ),
           ),
