@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'share_page.dart';
-import 'home_page.dart';
-import 'personal_page.dart';
+import 'myshare/share_page.dart';
+import 'home/home_page.dart';
+import 'home/personal_page.dart';
 
 class BottomNavigationWidget extends StatefulWidget {
   _BottomNavigationWidgetState createState() => _BottomNavigationWidgetState();

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import '../common/network.dart';
+import '../../common/network.dart';
 import 'package:dio/dio.dart';
 class RegisterRoute extends StatefulWidget {
   const RegisterRoute({Key? key}) : super(key: key);

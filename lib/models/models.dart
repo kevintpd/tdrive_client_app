@@ -132,11 +132,12 @@ class File {
 
 class ShareItem {
   String id;
+  String name;
   String ownerId;
   List<dynamic> items;
   String root;
   String createdTime;
-  String outdatedTime;
+  dynamic outdatedTime;
   List<dynamic> members;
   String code;
   int sharetype;
@@ -144,6 +145,7 @@ class ShareItem {
 
   ShareItem(
       this.id,
+      this.name,
       this.ownerId,
       this.items,
       this.root,
@@ -157,6 +159,7 @@ class ShareItem {
   factory ShareItem.fromjson(Map<String, dynamic> json) {
     return ShareItem(
         json['Id'],
+        json['Name'],
         json['Owner'],
         json['Items'],
         json['Root'],

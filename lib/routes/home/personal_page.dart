@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../models/models.dart';
-import '../common/network.dart';
-import '../common/global.dart';
+import '../../models/models.dart';
+import '../../common/network.dart';
+import '../../common/global.dart';
 
 class PersonalPageRoute extends StatefulWidget {
   const PersonalPageRoute({Key? key}) : super(key: key);

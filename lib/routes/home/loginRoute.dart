@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import '../models/models.dart';
+import '../../models/models.dart';
 import 'package:flutter/material.dart';
-import '../common/global.dart';
+import '../../common/global.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import '../common/network.dart';
-import '../common/server_spec.dart' as server;
+import '../../common/network.dart';
+import '../../common/server_spec.dart' as server;
 import 'package:dio/dio.dart';
 
 class LoginRoute extends StatefulWidget {

@@ -2,23 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart' as mymodel;
 import 'package:tdrive_client_app/common/network.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'renameFolderPopsup.dart';
-import '../models/models.dart';
-import '../routes/home/folder_view.dart';
+import '../../models/models.dart';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import '../routes/home/move_item_view.dart';
-import 'move_tile.dart';
+import '../myshare/share_folder_view.dart';
 
-class FolderTile extends StatefulWidget {
+class JoinedShareFolderTile extends StatefulWidget {
   Folder folder;
 
-  FolderTile({Key? key, required this.folder}) : super(key: key);
+  JoinedShareFolderTile({Key? key, required this.folder}) : super(key: key);
 
   @override
-  State<FolderTile> createState() => _FolderTileState();
+  State<JoinedShareFolderTile> createState() => _JoinedShareFolderTileState();
 }
 
-class _FolderTileState extends State<FolderTile> {
+class _JoinedShareFolderTileState extends State<JoinedShareFolderTile> {
 
   @override
   Widget build(BuildContext context) {
@@ -43,13 +40,6 @@ class _FolderTileState extends State<FolderTile> {
                       child: const ListTile(
                         leading: Icon(Icons.download_rounded),
                         title: Text("下载"),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {},
-                      child: const ListTile(
-                        leading: Icon(Icons.share_rounded),
-                        title: Text("共享"),
                       ),
                     ),
                     //修改文件夹名称
@@ -86,82 +76,14 @@ class _FolderTileState extends State<FolderTile> {
                             }
                           }
                         });
-                        // showDialog(
-                        //     barrierDismissible: false,
-                        //     context: context,
-                        //     builder: (context) {
-                        //       return RenameDialog(
-                        //         contentWidget: RenameDialogContent(
-                        //           ParentId: widget.folder.id,
-                        //           title: "修改文件夹名称",
-                        //         ),
-                        //       );
-                        //     });
                       },
                       child: const ListTile(
                         leading: Icon(Icons.drive_file_rename_outline_rounded),
                         title: Text("重命名"),
                       ),
                     ),
-                    // InkWell(
-                    //   onTap: () {
-                    //     showMaterialModalBottomSheet(
-                    //       context: context,
-                    //       builder: (context) => SingleChildScrollView(
-                    //         controller: ModalScrollController.of(context),
-                    //         child: Column(
-                    //           children: [
-                    //             SizedBox(height: 20,),
-                    //             Text("修改文件夹名称",
-                    //               textAlign: TextAlign.left,
-                    //               style: new TextStyle(
-                    //                 fontSize: 18.0,
-                    //                 fontWeight: FontWeight.bold,
-                    //               ),),
-                    //             SizedBox(height: 20,),
-                    //             TextField(
-                    //               decoration: InputDecoration(
-                    //                   hintText: "请输入新文件夹名称"
-                    //               ),
-                    //               controller: _foldername,
-                    //             ),
-                    //             SizedBox(height: 20,),
-                    //             ElevatedButton(
-                    //               child: Text("确定"),
-                    //               onPressed: (){
-                    //                 setState(() {
-                    //                   final response = renameFolder(widget.folder.id,_foldername.text);
-                    //                   if(response != null){
-                    //                     EasyLoading.showToast("修改成功");
-                    //                     Navigator.pop(context);
-                    //                   }
-                    //                   else{
-                    //                     EasyLoading.showToast("请重新输入文件名");
-                    //                   }
-                    //                 });
-                    //               },
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       ),
-                    //     );
-                    //   },
-                    //   child: const ListTile(
-                    //     leading: Icon(Icons.drive_file_rename_outline_rounded),
-                    //     title: Text("Rename"),
-                    //   ),
-                    // ),
                     InkWell(
                       onTap: () {
-                        //TODO
-                        mymodel.showMaterialModalBottomSheet(
-                          backgroundColor: Colors.transparent,
-                          context: context,
-                          builder: (context) => SingleChildScrollView(
-                            controller: mymodel.ModalScrollController.of(context),
-                            child: MoveItem(viewOfFolder:widget.folder),
-                          ),
-                        );
                       },
                       child: const ListTile(
                         leading: Icon(Icons.drive_file_move_rounded),
@@ -208,7 +130,7 @@ class _FolderTileState extends State<FolderTile> {
           onTap: () {
             Navigator.of(context)
                 .push(MaterialPageRoute(builder: (BuildContext context) {
-              return FolderView(viewOfFolder: widget.folder);
+              return ShareFolderView(viewOfFolderId: widget.folder.id, Name: widget.folder.name,);
             }));
           },
           child: ListTile(

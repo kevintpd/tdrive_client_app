@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../models/models.dart';
-import '../common/network.dart';
+import '../../models/models.dart';
+import '../../common/network.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
-import '../widgets/move_tile.dart';
+import '../../widgets/move_tile.dart';
 
 class MoveItem extends StatefulWidget {
   final Folder viewOfFolder;

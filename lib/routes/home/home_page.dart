@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import '../common/global.dart';
-import '../widgets/createFolderPopsup.dart';
-import '../common/network.dart';
-import '../models/models.dart';
-import '../widgets/folder_tile.dart';
+import '../../common/global.dart';
+import '../../widgets/createFolderPopsup.dart';
+import '../../common/network.dart';
+import '../../models/models.dart';
+import '../../widgets/folder_tile.dart';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 
 class HomeRoute extends StatefulWidget {

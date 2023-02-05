@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/models.dart';
-import '../common/network.dart';
+import '../../models/models.dart';
+import '../../common/network.dart';
 
 class SharePageRoute extends StatefulWidget {
   const SharePageRoute({Key? key}) : super(key: key);
@@ -39,7 +39,7 @@ class _SharePageRouteState extends State<SharePageRoute> {
                     IconButton(
                         iconSize:80.0,
                       constraints: BoxConstraints(minHeight: 80),
-                        onPressed: () {},
+                        onPressed: () => Navigator.of(context).pushNamed("myshare"),
                         icon: const Icon(Icons.person_add_alt_1_rounded,color: Colors.grey,)),
                     Text("我的共享   ",style: TextStyle(fontSize: 20,color: Colors.grey),)
                   ],
@@ -52,7 +52,7 @@ class _SharePageRouteState extends State<SharePageRoute> {
                     IconButton(
                     iconSize:80.0,
                         constraints: BoxConstraints(minHeight: 80),
-                        onPressed: () {},
+                        onPressed: () => Navigator.of(context).pushNamed("joinedshare"),
                         icon: const Icon(Icons.cloud_download_outlined,color: Colors.grey,)),
                     Text("我加入的共享",style: TextStyle(fontSize: 20,color: Colors.grey),)
                   ],),

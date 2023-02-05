@@ -3,12 +3,14 @@ import 'package:tdrive_client_app/common/global.dart' as Global;
 import 'package:tdrive_client_app/common/global.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
-import 'package:tdrive_client_app/routes/registerRoute.dart';
+import 'package:tdrive_client_app/routes/home/registerRoute.dart';
 import 'package:tdrive_client_app/routes/upload_download_page.dart';
-import './routes/loginRoute.dart';
-import './routes/home_page.dart';
+import 'routes/home/loginRoute.dart';
+import 'routes/home/home_page.dart';
 import './routes/bottom_navigation_widget.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'routes/myshare/myshare_root.dart';
+import 'routes/joinedshare/joinedshare_root.dart';
 
 Future<void> main() async{
   await Global.init();
@@ -36,6 +38,8 @@ class MyApp extends StatelessWidget {
               "login": (context) => LoginRoute(),
               "register": (context) => RegisterRoute(),
               "updown": (context) => UpDownRoute(),
+              "myshare": (context) => MyShareRootRoute(),
+              "joinedshare": (context) => JoinedShareRootRoute(),
             },
           );
         },

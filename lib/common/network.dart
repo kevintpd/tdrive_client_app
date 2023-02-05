@@ -68,9 +68,44 @@ Future<List<Folder>> fetchRoot() async {
   return root;
 }
 
+Future<List<ShareItem>> fetchMyShareRoot() async{
+  List<ShareItem> root = [];
+  final response = await dio.get(server.apiShareitem);
+  try {
+    if (response.statusCode == 200) {
+      response.data.forEach((item) => root.add(ShareItem.fromjson(item)));
+    }
+  } catch (e) {
+    print(e);
+  }
+  return root;
+}
+
+Future<List<ShareItem>> fetchJoinedShareRoot() async{
+  List<ShareItem> root = [];
+  final response = await dio.get(server.apiJoinedshare);
+  try {
+    if (response.statusCode == 200) {
+      response.data.forEach((item) => root.add(ShareItem.fromjson(item)));
+    }
+  } catch (e) {
+    print(e);
+  }
+  return root;
+}
+
 Future<Folder?> fetchFolder(String folderId) async {
   final response = await dio
       .get(server.apiFolders + folderId, queryParameters: {'expand': '~all'});
+  if (response.statusCode == 200) {
+    return Folder.fromJson(response.data);
+  }
+  return null;
+}
+
+Future<Folder?> fetchShareFolder(String folderId) async {
+  final response = await dio
+      .get(server.apiShareFolder + folderId, queryParameters: {'expand': '~all'});
   if (response.statusCode == 200) {
     return Folder.fromJson(response.data);
   }
