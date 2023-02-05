@@ -25,6 +25,7 @@ class _HomeRouteState extends State<HomeRoute> {
       appBar: AppBar(
         title: Text("TDrive"),
         actions: [
+          IconButton(onPressed: (){}, icon: const Icon(Icons.search_rounded)),
           IconButton(
               onPressed: () => Navigator.of(context).pushNamed("updown"),
               icon: const Icon(Icons.swap_vert)),

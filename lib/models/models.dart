@@ -17,11 +17,12 @@ class Item {
   String ownerId;
   String name;
   String creatorId;
+  bool IsShared;
 
-  Item(this.id, this.ownerId, this.name, this.creatorId);
+  Item(this.id, this.ownerId, this.name, this.creatorId, this.IsShared);
 
   factory Item.fromJson(Map<String, dynamic> json) {
-    return Item(json['Id'], json['Owner'], json['Name'], json['Creator']);
+    return Item(json['Id'], json['Owner'], json['Name'], json['Creator'], json['IsShared']);
   }
 }
 
@@ -30,13 +31,14 @@ class Folder {
   String name;
   String ownerId;
   String creatorId;
+  bool IsShared;
   dynamic parentFolder;
   List<dynamic> subFolders;
   List<dynamic> files;
   String dateCreated;
   String dateModified;
 
-  Folder(this.id, this.name, this.ownerId, this.creatorId, this.parentFolder,
+  Folder(this.id, this.name, this.ownerId, this.creatorId, this.IsShared, this.parentFolder,
       this.subFolders, this.files, this.dateCreated, this.dateModified);
 
   factory Folder.fromJson(Map<String, dynamic> json) {
@@ -45,6 +47,7 @@ class Folder {
         json['Name'],
         json['Owner'],
         json['Creator'],
+        json['IsShared'],
         json['ParentFolder'],
         json['SubFolders'],
         json['Files'],
@@ -57,6 +60,7 @@ class Folder {
         source.name,
         source.ownerId,
         source.creatorId,
+        source.IsShared,
         source.parentFolder,
         source.subFolders,
         source.files,

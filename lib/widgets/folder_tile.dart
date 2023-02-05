@@ -212,7 +212,12 @@ class _FolderTileState extends State<FolderTile> {
             }));
           },
           child: ListTile(
-            leading: const Icon(Icons.folder_rounded),
+            leading: widget.folder.IsShared
+                ? const Icon(
+              Icons.folder_shared,
+              color: Colors.blue,
+            )
+                : const Icon(Icons.folder_rounded),
             title: Text(widget.folder.name),
             subtitle: Text(
                 widget.folder.dateCreated.replaceFirst('T', ' ').split('.')[0]),
