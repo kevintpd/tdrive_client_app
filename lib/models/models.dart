@@ -22,7 +22,8 @@ class Item {
   Item(this.id, this.ownerId, this.name, this.creatorId, this.IsShared);
 
   factory Item.fromJson(Map<String, dynamic> json) {
-    return Item(json['Id'], json['Owner'], json['Name'], json['Creator'], json['IsShared']);
+    return Item(json['Id'], json['Owner'], json['Name'], json['Creator'],
+        json['IsShared']);
   }
 }
 
@@ -38,7 +39,8 @@ class Folder {
   String dateCreated;
   String dateModified;
 
-  Folder(this.id, this.name, this.ownerId, this.creatorId, this.IsShared, this.parentFolder,
+  Folder(this.id, this.name, this.ownerId, this.creatorId, this.IsShared,
+      this.parentFolder,
       this.subFolders, this.files, this.dateCreated, this.dateModified);
 
   factory Folder.fromJson(Map<String, dynamic> json) {
@@ -54,18 +56,19 @@ class Folder {
         json['DateCreated'],
         json['DateModified']);
   }
+
   factory Folder.clone(Folder source) {
     return Folder(
-        source.id,
-        source.name,
-        source.ownerId,
-        source.creatorId,
-        source.IsShared,
-        source.parentFolder,
-        source.subFolders,
-        source.files,
-        source.dateCreated,
-        source.dateModified,);
+      source.id,
+      source.name,
+      source.ownerId,
+      source.creatorId,
+      source.IsShared,
+      source.parentFolder,
+      source.subFolders,
+      source.files,
+      source.dateCreated,
+      source.dateModified,);
   }
 }
 
@@ -83,8 +86,7 @@ class File {
   String fileTags;
   dynamic parentFolder;
 
-  File(
-      this.id,
+  File(this.id,
       this.name,
       this.ownerId,
       this.creatorId,
@@ -133,20 +135,19 @@ class File {
 class ShareItem {
   String id;
   String name;
-  String ownerId;
+  User owner;
   List<dynamic> items;
-  String root;
+  Folder root;
   String createdTime;
   dynamic outdatedTime;
-  List<dynamic> members;
+  List<User> members;
   String code;
   int sharetype;
   String description;
 
-  ShareItem(
-      this.id,
+  ShareItem(this.id,
       this.name,
-      this.ownerId,
+      this.owner,
       this.items,
       this.root,
       this.createdTime,
@@ -160,14 +161,29 @@ class ShareItem {
     return ShareItem(
         json['Id'],
         json['Name'],
-        json['Owner'],
+        User.fromjson(json['Owner']),
         json['Items'],
-        json['Root'],
+        Folder.fromJson(json['Root']),
         json['CreatedTime'],
         json['OutdatedTime'],
-        json['Members'],
+        List<User>.from(json['Members'].map((item) => User.fromjson(item))),
         json['Code'],
         json['ShareType'],
         json['Description']);
+  }
+
+  factory ShareItem.clone(ShareItem source){
+    return ShareItem(
+        source.id,
+        source.name,
+        source.owner,
+        source.items,
+        source.root,
+        source.createdTime,
+        source.outdatedTime,
+        source.members,
+        source.code,
+        source.sharetype,
+        source.description);
   }
 }

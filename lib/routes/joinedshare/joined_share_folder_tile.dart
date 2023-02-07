@@ -4,7 +4,7 @@ import 'package:tdrive_client_app/common/network.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import '../../models/models.dart';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import '../myshare/share_folder_view.dart';
+import 'joined_share_folder_view.dart';
 
 class JoinedShareFolderTile extends StatefulWidget {
   Folder folder;
@@ -130,7 +130,7 @@ class _JoinedShareFolderTileState extends State<JoinedShareFolderTile> {
           onTap: () {
             Navigator.of(context)
                 .push(MaterialPageRoute(builder: (BuildContext context) {
-              return ShareFolderView(viewOfFolderId: widget.folder.id, Name: widget.folder.name,);
+              return JoinedShareFolderView(viewOfFolderId: widget.folder.id, Name: widget.folder.name,sharetiemId: widget.folder.id,);
             }));
           },
           child: ListTile(
@@ -147,6 +147,7 @@ class _JoinedShareFolderTileState extends State<JoinedShareFolderTile> {
               mainAxisSize: MainAxisSize.min,
               children: widget.folder.files.isNotEmpty
                   ? [
+
                       const Icon(Icons.file_present_rounded),
                       Text(widget.folder.files.length.toString())
                     ]

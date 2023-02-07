@@ -19,6 +19,7 @@ const apiShareFolder = "sharefolder/";
 const apiShareFile = "sharefile/";
 const apiRoot = "root/";
 const apiLogin = "user/info/";
+const apiRefresh = "Refresh/";
 
 
 Map<String, String> get headers => {

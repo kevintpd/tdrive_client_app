@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart' as mymodel;
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../models/models.dart';
 import 'share_folder_view.dart';
+import 'my_share_detail.dart';
 
 class ShareFolderRootTile extends StatefulWidget {
   ShareItem sharefolder;
@@ -26,10 +27,10 @@ class _ShareFolderRootTileState extends State<ShareFolderRootTile> {
                 bottomRight: Radius.circular(16.0))),
         child: InkWell(
           onLongPress: () {
-            mymodel.showMaterialModalBottomSheet(
+            showMaterialModalBottomSheet(
               context: context,
               builder: (context) => SingleChildScrollView(
-                controller: mymodel.ModalScrollController.of(context),
+                controller: ModalScrollController.of(context),
                 child: Column(
                   children: [
                     InkWell(
@@ -80,7 +81,7 @@ class _ShareFolderRootTileState extends State<ShareFolderRootTile> {
           onTap: () {
             Navigator.of(context)
                 .push(MaterialPageRoute(builder: (BuildContext context) {
-              return ShareFolderView(viewOfFolderId: widget.sharefolder.root, Name: widget.sharefolder.name);
+              return ShareFolderView(viewOfFolderId: widget.sharefolder.root.id, Name: widget.sharefolder.name);
             }));
           },
           child: ListTile(
@@ -89,8 +90,20 @@ class _ShareFolderRootTileState extends State<ShareFolderRootTile> {
               color: Colors.blue,
             ),
             title: Text(widget.sharefolder.name),
-            subtitle: Text(
-                widget.sharefolder.description),
+            subtitle: Text("有效期:${"${widget.sharefolder.outdatedTime??"无限期"}".replaceFirst('T', ' ').split('+')[0]}"),
+            trailing: GestureDetector(
+              child: Text("详情", style: TextStyle(color: Colors.blue),),
+              onTap: (){
+                showMaterialModalBottomSheet(
+                  backgroundColor: Colors.transparent,
+                  context: context,
+                  builder: (context) => SingleChildScrollView(
+                    controller: ModalScrollController.of(context),
+                    child: MyShareDetail(shareItem:widget.sharefolder),
+                  ),
+                );
+              },
+            ),
           ),
         ));
   }

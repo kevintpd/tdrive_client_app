@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart' as mymodel;
 import '../../models/models.dart';
 import '../myshare/share_folder_view.dart';
+import 'joined_share_folder_view.dart';
 
 class JoinedShareFolderRootTile extends StatefulWidget {
   ShareItem sharefolder;
@@ -25,62 +26,10 @@ class _JoinedShareFolderRootTileState extends State<JoinedShareFolderRootTile> {
                 bottomLeft: Radius.circular(16.0),
                 bottomRight: Radius.circular(16.0))),
         child: InkWell(
-          onLongPress: () {
-            mymodel.showMaterialModalBottomSheet(
-              context: context,
-              builder: (context) => SingleChildScrollView(
-                controller: mymodel.ModalScrollController.of(context),
-                child: Column(
-                  children: [
-                    InkWell(
-                      onTap: () {},
-                      child: const ListTile(
-                        leading: Icon(Icons.download_rounded),
-                        title: Text("下载"),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {},
-                      child: const ListTile(
-                        leading: Icon(Icons.share_rounded),
-                        title: Text("共享"),
-                      ),
-                    ),
-                    //修改文件夹名称
-                    InkWell(
-                      onTap: () {
-                      },
-                      child: const ListTile(
-                        leading: Icon(Icons.drive_file_rename_outline_rounded),
-                        title: Text("重命名"),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                      },
-                      child: const ListTile(
-                        leading: Icon(Icons.drive_file_move_rounded),
-                        title: Text("移动"),
-                      ),
-                    ),
-                    //删除按钮
-                    InkWell(
-                      onTap: () {
-                      },
-                      child: const ListTile(
-                        leading: Icon(Icons.delete_rounded),
-                        title: Text("删除"),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            );
-          },
           onTap: () {
             Navigator.of(context)
                 .push(MaterialPageRoute(builder: (BuildContext context) {
-              return ShareFolderView(viewOfFolderId: widget.sharefolder.root, Name: widget.sharefolder.name);
+              return JoinedShareFolderView(viewOfFolderId: widget.sharefolder.root.id, Name: widget.sharefolder.name, sharetiemId: widget.sharefolder.id,);
             }));
           },
           child: ListTile(
@@ -89,8 +38,7 @@ class _JoinedShareFolderRootTileState extends State<JoinedShareFolderRootTile> {
               color: Colors.blue,
             ),
             title: Text(widget.sharefolder.name),
-            subtitle: Text(
-                widget.sharefolder.description),
+            subtitle: Text("有效期:${"${widget.sharefolder.outdatedTime??"无限期"}".replaceFirst('T', ' ').split('+')[0]}"),
           ),
         ));
   }

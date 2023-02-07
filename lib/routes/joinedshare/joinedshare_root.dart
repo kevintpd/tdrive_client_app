@@ -56,6 +56,7 @@ class _JoinedShareRootRouteState extends State<JoinedShareRootRoute> {
             heroTag: 'refresh',
             onPressed: () {
               setState(() {
+                RefreshShare();
                 root = fetchJoinedShareRoot();
               });
             },
