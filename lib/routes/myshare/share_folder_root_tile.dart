@@ -90,9 +90,9 @@ class _ShareFolderRootTileState extends State<ShareFolderRootTile> {
               color: Colors.blue,
             ),
             title: Text(widget.sharefolder.name),
-            subtitle: Text("有效期:${"${widget.sharefolder.outdatedTime??"无限期"}".replaceFirst('T', ' ').split('+')[0]}"),
+            subtitle: Text("有效期:${"${widget.sharefolder.outdatedTime??"无限期"}".replaceFirst('T', ' ').split(' ')[0]}"),
             trailing: GestureDetector(
-              child: Text("详情", style: TextStyle(color: Colors.blue),),
+              child: Icon(Icons.more_vert_rounded),
               onTap: (){
                 showMaterialModalBottomSheet(
                   backgroundColor: Colors.transparent,

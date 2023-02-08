@@ -34,12 +34,13 @@ Future<dynamic> sendcode(String email) async {
 
 Future<dynamic> register(
     String username, String password, String email, String code) async {
-  final response = await dio.post(server.apiRegister, data: {
+  FormData formData = FormData.fromMap({
     'username': username,
     'password': password,
     'email': email,
     'code': code
   });
+  final response = await dio.post(server.apiRegister, data: formData);
   return response.statusCode;
 }
 
@@ -68,9 +69,10 @@ Future<List<Folder>> fetchRoot() async {
   return root;
 }
 
-Future<List<ShareItem>> fetchMyShareRoot() async{
+Future<List<ShareItem>> fetchMyShareRoot() async {
   List<ShareItem> root = [];
-  final response = await dio.get(server.apiShareitem, queryParameters: {'expand':'~all'});
+  final response =
+      await dio.get(server.apiShareitem, queryParameters: {'expand': '~all'});
   try {
     if (response.statusCode == 200) {
       response.data.forEach((item) => root.add(ShareItem.fromjson(item)));
@@ -81,9 +83,10 @@ Future<List<ShareItem>> fetchMyShareRoot() async{
   return root;
 }
 
-Future<List<ShareItem>> fetchJoinedShareRoot() async{
+Future<List<ShareItem>> fetchJoinedShareRoot() async {
   List<ShareItem> root = [];
-  final response = await dio.get(server.apiJoinedshare,queryParameters: {'expand':'~all'});
+  final response =
+      await dio.get(server.apiJoinedshare, queryParameters: {'expand': '~all'});
   try {
     if (response.statusCode == 200) {
       response.data.forEach((item) => root.add(ShareItem.fromjson(item)));
@@ -104,8 +107,8 @@ Future<Folder?> fetchFolder(String folderId) async {
 }
 
 Future<Folder?> fetchShareFolder(String folderId) async {
-  final response = await dio
-      .get(server.apiShareFolder + folderId, queryParameters: {'expand': '~all'});
+  final response = await dio.get(server.apiShareFolder + folderId,
+      queryParameters: {'expand': '~all'});
   if (response.statusCode == 200) {
     return Folder.fromJson(response.data);
   }
@@ -140,6 +143,15 @@ Future<dynamic> deleteFile(String fileId) async {
   }
 }
 
+Future<dynamic> deleteShareItem(String ShareItemId) async {
+  try {
+    final response = await dio.delete(server.apiShareitem + ShareItemId);
+    return response.statusCode;
+  } catch (e) {
+    return null;
+  }
+}
+
 //暂时没用处了
 Future<dynamic> renameFolder(String folderid, String name) async {
   try {
@@ -156,8 +168,32 @@ Future<dynamic> renameFolder(String folderid, String name) async {
 
 Future<dynamic> updateFolder(Folder oldFolder, Folder newFolder) async {
   try {
+    FormData formData = FormData.fromMap({"Name": newFolder.name, 'ParentFolder': newFolder.parentFolder});
     final response = await dio.put(server.apiFolders + oldFolder.id,
-        data: {"Name": newFolder.name, 'ParentFolder': newFolder.parentFolder});
+        data: formData);
+    if (response.statusCode == 200) {
+      return response.statusCode;
+    }
+  } catch (e) {
+    print(e.toString());
+  }
+  return null;
+}
+
+Future<dynamic> updateShareitem(
+    ShareItem oldShareItem, ShareItemSample newShareItem) async {
+  try {
+    FormData formData = FormData.fromMap({
+      "Root": oldShareItem.root.id,
+      "OutdatedTime": newShareItem.outdatedTime,
+      "Members": newShareItem.members,
+      "Code": newShareItem.code,
+      "ShareType": newShareItem.sharetype,
+      "Description": newShareItem.description,
+    });
+    final response =
+        await dio.put(server.apiShareitem + oldShareItem.id, data: formData);
+    print(newShareItem.outdatedTime);
     if (response.statusCode == 200) {
       return response.statusCode;
     }
@@ -169,11 +205,13 @@ Future<dynamic> updateFolder(Folder oldFolder, Folder newFolder) async {
 
 Future<dynamic> updateFile(File oldFile, File newFile) async {
   try {
-    final response = await dio.put(server.apiFiles + oldFile.id, data: {
+    FormData formData = FormData.fromMap({
       "Name": newFile.name,
       'FileType': oldFile.fileType,
       'ParentFolder': newFile.parentFolder
     });
+    final response =
+        await dio.put(server.apiFiles + oldFile.id, data: formData);
     if (response.statusCode == 200) {
       return response.statusCode;
     }
@@ -183,32 +221,34 @@ Future<dynamic> updateFile(File oldFile, File newFile) async {
   return null;
 }
 
-
-
 Future<dynamic> newFolder(String ParentfolderId, String name) async {
   try {
+    FormData formData =
+        FormData.fromMap({'Name': name, 'ParentFolder': ParentfolderId});
     final response = await dio.post(server.apiFolders,
-        data: {'Name': name, 'ParentFolder': ParentfolderId});
-    return response.statusCode;
-  } catch (e) {
-    return null;
-  }
-}
-Future<dynamic> newShareFolder(String shareitemId, String ParentfolderId, String name) async {
-  try {
-    final response = await dio.post(server.apiCreateShareFolder+shareitemId,
-        data: {'Name': name, 'ParentFolder': ParentfolderId});
+        data: formData);
     return response.statusCode;
   } catch (e) {
     return null;
   }
 }
 
-Future<void> RefreshShare() async{
-  try{
-    await dio.get(server.apiRefresh);
+Future<dynamic> newShareFolder(
+    String shareitemId, String ParentfolderId, String name) async {
+  try {
+    FormData formData = FormData.fromMap({'Name': name, 'ParentFolder': ParentfolderId});
+    final response = await dio.post(server.apiCreateShareFolder + shareitemId,
+        data: formData);
+    return response.statusCode;
+  } catch (e) {
+    return null;
   }
-  catch(e){
+}
+
+Future<void> RefreshShare() async {
+  try {
+    await dio.get(server.apiRefresh);
+  } catch (e) {
     print(e.toString());
   }
 }
@@ -227,22 +267,20 @@ Future<dynamic> uploadFile(
   }
 }
 
-
-Future<dynamic> uploadFileToShare(String shareitemId,
-    String ParentFolder, String? filePath, String name) async {
+Future<dynamic> uploadFileToShare(String shareitemId, String ParentFolder,
+    String? filePath, String name) async {
   try {
     FormData formData = FormData.fromMap({
       'FileData': await MultipartFile.fromFile(filePath ?? "", filename: name),
       'ParentFolder': ParentFolder
     });
-    final response = await dio.post(server.apiUploadShareFile+shareitemId, data: formData);
+    final response =
+        await dio.post(server.apiUploadShareFile + shareitemId, data: formData);
     return response.statusCode; //201
   } catch (e) {
     return null;
   }
 }
-
-
 
 Future<void> downloadFile(BuildContext context, File file) async {
   bool hasStoragePermission = await checkStoragePermission();

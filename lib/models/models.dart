@@ -187,3 +187,60 @@ class ShareItem {
         source.description);
   }
 }
+
+
+class ShareItemSample {
+  String id;
+  String name;
+  String owner;
+  List<dynamic> items;
+  String root;
+  String createdTime;
+  dynamic outdatedTime;
+  List<dynamic> members;
+  String code;
+  int sharetype;
+  String description;
+
+  ShareItemSample(this.id,
+      this.name,
+      this.owner,
+      this.items,
+      this.root,
+      this.createdTime,
+      this.outdatedTime,
+      this.members,
+      this.code,
+      this.sharetype,
+      this.description);
+
+  factory ShareItemSample.fromjson(Map<String, dynamic> json) {
+    return ShareItemSample(
+        json['Id'],
+        json['Name'],
+        json['Owner'],
+        json['Items'],
+        json['Root'],
+        json['CreatedTime'],
+        json['OutdatedTime'],
+        json['Members'],
+        json['Code'],
+        json['ShareType'],
+        json['Description']);
+  }
+
+  factory ShareItemSample.clone(ShareItemSample source){
+    return ShareItemSample(
+        source.id,
+        source.name,
+        source.owner,
+        source.items,
+        source.root,
+        source.createdTime,
+        source.outdatedTime,
+        source.members,
+        source.code,
+        source.sharetype,
+        source.description);
+  }
+}

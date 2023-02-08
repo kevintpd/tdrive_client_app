@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart' as mymodel;
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import '../../models/models.dart';
 import '../myshare/share_folder_view.dart';
 import 'joined_share_folder_view.dart';
+import 'joined_share_detail.dart';
 
 class JoinedShareFolderRootTile extends StatefulWidget {
   ShareItem sharefolder;
@@ -38,7 +39,20 @@ class _JoinedShareFolderRootTileState extends State<JoinedShareFolderRootTile> {
               color: Colors.blue,
             ),
             title: Text(widget.sharefolder.name),
-            subtitle: Text("有效期:${"${widget.sharefolder.outdatedTime??"无限期"}".replaceFirst('T', ' ').split('+')[0]}"),
+            subtitle: Text("有效期:${"${widget.sharefolder.outdatedTime??"无限期"}".replaceFirst('T', ' ').split(' ')[0]}"),
+            trailing: GestureDetector(
+              child: Icon(Icons.more_vert_rounded),
+              onTap: (){
+                showMaterialModalBottomSheet(
+                  backgroundColor: Colors.transparent,
+                  context: context,
+                  builder: (context) => SingleChildScrollView(
+                    controller: ModalScrollController.of(context),
+                    child: JoinedShareDetail(shareItem:widget.sharefolder),
+                  ),
+                );
+              },
+            ),
           ),
         ));
   }

@@ -59,13 +59,13 @@ class _FileTileState extends State<FileTile> {
                         title: Text("下载"),
                       ),
                     ),
-                    InkWell(
-                      onTap: () {},
-                      child: const ListTile(
-                        leading: Icon(Icons.share_rounded),
-                        title: Text("分享"),
-                      ),
-                    ),
+                    // InkWell(
+                    //   onTap: () {},
+                    //   child: const ListTile(
+                    //     leading: Icon(Icons.share_rounded),
+                    //     title: Text("分享"),
+                    //   ),
+                    // ),
                     InkWell(
                       onTap: () {
                         showTextInputDialog(
