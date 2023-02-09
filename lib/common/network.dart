@@ -245,6 +245,26 @@ Future<dynamic> newShareFolder(
   }
 }
 
+Future<dynamic> newShareItem(
+    String root,dynamic outdatedTime, dynamic code, int shareType, dynamic description
+    )async{
+  try{FormData formData = FormData.fromMap({
+    'Root':root,
+    'OutdatedTime':outdatedTime,
+    'Members':null,
+    'Code':code,
+    'ShareType':shareType,
+    'Description':description
+  });
+  final response = await dio.post(server.apiShareitem, data: formData);
+  return response.statusCode;}
+      catch(e){
+    return null;
+      }
+}
+
+
+
 Future<void> RefreshShare() async {
   try {
     await dio.get(server.apiRefresh);

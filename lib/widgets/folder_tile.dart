@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart' as mymodel;
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:tdrive_client_app/common/network.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'renameFolderPopsup.dart';
@@ -7,6 +7,7 @@ import '../models/models.dart';
 import '../routes/home/folder_view.dart';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import '../routes/home/move_item_view.dart';
+import '../routes/home/make_share.dart';
 import 'move_tile.dart';
 
 class FolderTile extends StatefulWidget {
@@ -32,10 +33,10 @@ class _FolderTileState extends State<FolderTile> {
                 bottomRight: Radius.circular(16.0))),
         child: InkWell(
           onLongPress: () {
-            mymodel.showMaterialModalBottomSheet(
+            showMaterialModalBottomSheet(
               context: context,
               builder: (context) => SingleChildScrollView(
-                controller: mymodel.ModalScrollController.of(context),
+                controller: ModalScrollController.of(context),
                 child: Column(
                   children: [
                     InkWell(
@@ -46,7 +47,16 @@ class _FolderTileState extends State<FolderTile> {
                       ),
                     ),
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        showMaterialModalBottomSheet(
+                          backgroundColor: Colors.transparent,
+                          context: context,
+                          builder: (context) => SingleChildScrollView(
+                            controller: ModalScrollController.of(context),
+                            child: MakeShare(folder: widget.folder),
+                          ),
+                        );
+                      },
                       child: const ListTile(
                         leading: Icon(Icons.share_rounded),
                         title: Text("共享"),
@@ -154,11 +164,11 @@ class _FolderTileState extends State<FolderTile> {
                     InkWell(
                       onTap: () {
                         //TODO
-                        mymodel.showMaterialModalBottomSheet(
+                        showMaterialModalBottomSheet(
                           backgroundColor: Colors.transparent,
                           context: context,
                           builder: (context) => SingleChildScrollView(
-                            controller: mymodel.ModalScrollController.of(context),
+                            controller: ModalScrollController.of(context),
                             child: MoveItem(viewOfFolder:widget.folder),
                           ),
                         );
