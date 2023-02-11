@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:tdrive_client_app/common/network.dart';
 import '../../models/models.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class JoinedShareDetail extends StatefulWidget {
   late ShareItem shareItem;
@@ -35,7 +38,7 @@ class _JoinedShareDetailState extends State<JoinedShareDetail> {
                 style: TextStyle(fontSize: 20),
               ),
               SizedBox(
-                height: 650,
+                height: 600,
                 child: MediaQuery.removePadding(
                   removeTop: true,
                   context: context,
@@ -69,6 +72,13 @@ class _JoinedShareDetailState extends State<JoinedShareDetail> {
                             leading: Icon(Icons.close_fullscreen_rounded),
                             title: Text("项目码"),
                             subtitle: Text(widget.shareItem.id),
+                            trailing: TextButton(
+                              onPressed: (){
+                                Clipboard.setData(ClipboardData(text: widget.shareItem.id));
+                                EasyLoading.showToast("复制成功");
+                              },
+                              child: Text("复制"),
+                            ),
                           );
                         }
                         if(index==4){
@@ -144,6 +154,31 @@ class _JoinedShareDetailState extends State<JoinedShareDetail> {
                       }),
                 ),
               ),
+              SizedBox(
+                height: 60,
+                child: Row(
+                  children: [
+                    Expanded(
+                        child: TextButton(
+                            onPressed: ()async{
+                              final response = await quitShare(widget.shareItem.id);
+                              if(response == 200){
+                                EasyLoading.showToast("退出成功");
+                                Future.delayed(Duration(seconds: 1), () {
+                                  Navigator.pop(context);
+                                  EasyLoading.dismiss();
+                                });
+                              }else{
+                                EasyLoading.showToast("退出失败");
+                              }
+                            },
+                            child: Text(
+                              "退出",
+                              style: TextStyle(fontSize: 20),
+                            ))),
+                  ],
+                )
+              )
             ],
           ),
         ));

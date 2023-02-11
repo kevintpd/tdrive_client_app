@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+
 import '../../common/network.dart';
 import '../../models/models.dart';
 import 'joined_share_folder_root_tile.dart';
@@ -20,7 +20,7 @@ class _JoinedShareRootRouteState extends State<JoinedShareRootRoute> {
       appBar: AppBar(
         title: Text("加入的共享"),
         actions: [
-          IconButton(onPressed: (){}, icon: const Icon(Icons.add)),
+          IconButton(onPressed: () => Navigator.of(context).pushNamed("joinshare"), icon: const Icon(Icons.add)),
           IconButton(onPressed: (){}, icon: const Icon(Icons.search_rounded)),
           IconButton(
               onPressed: () => Navigator.of(context).pushNamed("updown"),

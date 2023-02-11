@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'global.dart';
 
-const serverAddress = "http://192.168.0.104:8000/";
+const serverAddress = "http://192.168.31.154:8000/";
 const apiUserinfo = "user/info/";
 const apiRegister = "register/";
 const apiSendcode = "sendcode/";
@@ -13,10 +13,12 @@ const apiFolderDownload = "folderdownload/";
 const apiShareitem = "shareitem/";
 const apiJoinedshare = "joinedshare/";
 const apiJoinshare = "joinshare/";
+const apiQuitShare = "quitShare/";
 const apiCreateShareFolder = "createsharefolder/";
 const apiUploadShareFile = "uploadfiletoshare/";
 const apiShareFolder = "sharefolder/";
 const apiShareFile = "sharefile/";
+const apiAllShare = "AllShare/";
 const apiRoot = "root/";
 const apiLogin = "user/info/";
 const apiRefresh = "Refresh/";

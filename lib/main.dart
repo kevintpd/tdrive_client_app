@@ -11,6 +11,7 @@ import './routes/bottom_navigation_widget.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'routes/myshare/myshare_root.dart';
 import 'routes/joinedshare/joinedshare_root.dart';
+import 'routes/joinedshare/join_share_route.dart';
 
 Future<void> main() async{
   await Global.init();
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
               "updown": (context) => UpDownRoute(),
               "myshare": (context) => MyShareRootRoute(),
               "joinedshare": (context) => JoinedShareRootRoute(),
+              "joinshare": (context) => JoinShareRoute(),
             },
           );
         },

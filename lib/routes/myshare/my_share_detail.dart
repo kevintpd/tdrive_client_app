@@ -133,6 +133,13 @@ class _MyShareDetailState extends State<MyShareDetail> {
                             leading: Icon(Icons.close_fullscreen_rounded),
                             title: Text("项目码"),
                             subtitle: Text(widget.shareItem.id),
+                            trailing: TextButton(
+                              onPressed: (){
+                                Clipboard.setData(ClipboardData(text: widget.shareItem.id));
+                                EasyLoading.showToast("复制成功");
+                              },
+                              child: Text("复制"),
+                            ),
                           );
                         }
                         if (index == 4) {

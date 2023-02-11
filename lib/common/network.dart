@@ -97,6 +97,34 @@ Future<List<ShareItem>> fetchJoinedShareRoot() async {
   return root;
 }
 
+Future<List<ShareItem>> fetchAllShareItem() async {
+  List<ShareItem> allitem = [];
+  final response =
+      await dio.get(server.apiAllShare, queryParameters: {'expand': '~all'});
+  try {
+    if (response.statusCode == 200) {
+      response.data.forEach((item) => allitem.add(ShareItem.fromjson(item)));
+    }
+  } catch (e) {
+    print(e);
+  }
+  return allitem;
+}
+
+Future<List<ShareItem>> fetchOneShareItem(String itemId) async {
+  List<ShareItem> oneitem = [];
+  final response = await dio
+      .get(server.apiShareitem + itemId, queryParameters: {'expand': '~all'});
+  try {
+    if (response.statusCode == 200) {
+      oneitem.add(ShareItem.fromjson(response.data));
+    }
+  } catch (e) {
+    print(e);
+  }
+  return oneitem;
+}
+
 Future<Folder?> fetchFolder(String folderId) async {
   final response = await dio
       .get(server.apiFolders + folderId, queryParameters: {'expand': '~all'});
@@ -168,9 +196,10 @@ Future<dynamic> renameFolder(String folderid, String name) async {
 
 Future<dynamic> updateFolder(Folder oldFolder, Folder newFolder) async {
   try {
-    FormData formData = FormData.fromMap({"Name": newFolder.name, 'ParentFolder': newFolder.parentFolder});
-    final response = await dio.put(server.apiFolders + oldFolder.id,
-        data: formData);
+    FormData formData = FormData.fromMap(
+        {"Name": newFolder.name, 'ParentFolder': newFolder.parentFolder});
+    final response =
+        await dio.put(server.apiFolders + oldFolder.id, data: formData);
     if (response.statusCode == 200) {
       return response.statusCode;
     }
@@ -225,8 +254,7 @@ Future<dynamic> newFolder(String ParentfolderId, String name) async {
   try {
     FormData formData =
         FormData.fromMap({'Name': name, 'ParentFolder': ParentfolderId});
-    final response = await dio.post(server.apiFolders,
-        data: formData);
+    final response = await dio.post(server.apiFolders, data: formData);
     return response.statusCode;
   } catch (e) {
     return null;
@@ -236,7 +264,8 @@ Future<dynamic> newFolder(String ParentfolderId, String name) async {
 Future<dynamic> newShareFolder(
     String shareitemId, String ParentfolderId, String name) async {
   try {
-    FormData formData = FormData.fromMap({'Name': name, 'ParentFolder': ParentfolderId});
+    FormData formData =
+        FormData.fromMap({'Name': name, 'ParentFolder': ParentfolderId});
     final response = await dio.post(server.apiCreateShareFolder + shareitemId,
         data: formData);
     return response.statusCode;
@@ -245,25 +274,41 @@ Future<dynamic> newShareFolder(
   }
 }
 
-Future<dynamic> newShareItem(
-    String root,dynamic outdatedTime, dynamic code, int shareType, dynamic description
-    )async{
-  try{FormData formData = FormData.fromMap({
-    'Root':root,
-    'OutdatedTime':outdatedTime,
-    'Members':null,
-    'Code':code,
-    'ShareType':shareType,
-    'Description':description
-  });
-  final response = await dio.post(server.apiShareitem, data: formData);
-  return response.statusCode;}
-      catch(e){
+Future<dynamic> newShareItem(String root, dynamic outdatedTime, dynamic code,
+    int shareType, dynamic description) async {
+  try {
+    FormData formData = FormData.fromMap({
+      'Root': root,
+      'OutdatedTime': outdatedTime,
+      'Members': null,
+      'Code': code,
+      'ShareType': shareType,
+      'Description': description
+    });
+    final response = await dio.post(server.apiShareitem, data: formData);
+    return response.statusCode;
+  } catch (e) {
     return null;
-      }
+  }
 }
 
+Future<dynamic> joinShare(String shareItemId) async {
+  try {
+    final response = await dio.patch(server.apiJoinshare + shareItemId);
+    return response.statusCode;
+  } catch (e) {
+    return null;
+  }
+}
 
+Future<dynamic> quitShare(String shareItemId) async {
+  try {
+    final response = await dio.patch(server.apiQuitShare + shareItemId);
+    return response.statusCode;
+  } catch (e) {
+    return null;
+  }
+}
 
 Future<void> RefreshShare() async {
   try {
