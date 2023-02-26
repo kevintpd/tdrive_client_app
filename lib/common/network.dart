@@ -250,6 +250,20 @@ Future<dynamic> updateFile(File oldFile, File newFile) async {
   return null;
 }
 
+Future<List<File>> SearchMyFile(String SearchWord) async {
+  List<File> files = [];
+  final response = await dio.get(server.fileSearch, queryParameters: {'searchWord':SearchWord});
+  try {
+    if (response.statusCode == 200){
+      response.data.forEach((file) => files.add(File.fromJson(file)));
+    }
+  }
+  catch(e){
+    print(e);
+  }
+  return files;
+}
+
 Future<dynamic> newFolder(String ParentfolderId, String name) async {
   try {
     FormData formData =

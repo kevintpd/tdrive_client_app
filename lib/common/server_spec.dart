@@ -22,6 +22,7 @@ const apiAllShare = "AllShare/";
 const apiRoot = "root/";
 const apiLogin = "user/info/";
 const apiRefresh = "Refresh/";
+const fileSearch = "fileSearch/";
 
 
 Map<String, String> get headers => {

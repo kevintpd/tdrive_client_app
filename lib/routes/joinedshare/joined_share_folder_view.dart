@@ -61,14 +61,6 @@ class _JoinedShareFolderViewState extends State<JoinedShareFolderView> {
                   children: [
                     folderList,
                     fileList
-                    // Flexible(
-                    //   flex: 1,
-                    //   child: folderList,
-                    // ),
-                    // Flexible(
-                    //   flex: 2,
-                    //   child: fileList,
-                    // )
                   ],
                 ),
               );
