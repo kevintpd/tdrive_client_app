@@ -21,7 +21,7 @@ class _JoinedShareRootRouteState extends State<JoinedShareRootRoute> {
         title: Text("加入的共享"),
         actions: [
           IconButton(onPressed: () => Navigator.of(context).pushNamed("joinshare"), icon: const Icon(Icons.add)),
-          IconButton(onPressed: (){}, icon: const Icon(Icons.search_rounded)),
+          IconButton(onPressed: () => Navigator.of(context).pushNamed("joinsharesearch"), icon: const Icon(Icons.search_rounded)),
           IconButton(
               onPressed: () => Navigator.of(context).pushNamed("updown"),
               icon: const Icon(Icons.swap_vert)),

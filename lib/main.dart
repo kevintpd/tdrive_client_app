@@ -13,6 +13,7 @@ import 'routes/myshare/myshare_root.dart';
 import 'routes/joinedshare/joinedshare_root.dart';
 import 'routes/joinedshare/join_share_route.dart';
 import 'routes/home/home_search.dart';
+import 'routes/joinedshare/joinshare_search.dart';
 
 Future<void> main() async{
   await Global.init();
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
               "joinedshare": (context) => JoinedShareRootRoute(),
               "joinshare": (context) => JoinShareRoute(),
               "homesearch": (context) => homeSearchRoute(),
+              "joinsharesearch": (context) => JoinShareSearchRoute(),
             },
           );
         },

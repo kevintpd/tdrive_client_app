@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'global.dart';
 
-const serverAddress = "http://192.168.31.154:8000/";
+const serverAddress = "http://172.20.10.5:8000/";
 const apiUserinfo = "user/info/";
 const apiRegister = "register/";
 const apiSendcode = "sendcode/";
@@ -23,6 +23,7 @@ const apiRoot = "root/";
 const apiLogin = "user/info/";
 const apiRefresh = "Refresh/";
 const fileSearch = "fileSearch/";
+const joinshareSearch = "searchsharefile/";
 
 
 Map<String, String> get headers => {
