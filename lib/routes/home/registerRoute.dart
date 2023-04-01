@@ -23,6 +23,7 @@ class _RegisterRouteState extends State<RegisterRoute> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(title: Text("注册")),
       body: Center(
         child: Padding(

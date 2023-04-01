@@ -54,17 +54,25 @@ class _ShareFolderViewState extends State<ShareFolderView> {
                     return FileTile(file: file);
                   });
 
-              return Column(
-                children: [
-                  Flexible(
-                    flex: 1,
-                    child: folderList,
-                  ),
-                  Flexible(
-                    flex: 2,
-                    child: fileList,
-                  )
-                ],
+              // return Column(
+              //   children: [
+              //     Flexible(
+              //       flex: 1,
+              //       child: folderList,
+              //     ),
+              //     Flexible(
+              //       flex: 2,
+              //       child: fileList,
+              //     )
+              //   ],
+              // );
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    folderList,
+                    fileList
+                  ],
+                ),
               );
             }
             return Center(

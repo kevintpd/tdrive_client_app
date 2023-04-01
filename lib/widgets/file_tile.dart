@@ -151,9 +151,15 @@ class _FileTileState extends State<FileTile> {
               ListTile(
                 leading: const Icon(Icons.file_present_rounded),
                 title: Text(widget.file.name),
-                subtitle: Text(widget.file.dateUpload
-                    .replaceFirst('T', ' ')
-                    .split('.')[0]),
+                subtitle: Column(
+                  crossAxisAlignment:CrossAxisAlignment.start,
+                  children: [
+                    Text(widget.file.dateUpload
+                        .replaceFirst('T', ' ')
+                        .split('.')[0]),
+                    //Text(widget.file.fileTags)
+                  ],
+                ),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [

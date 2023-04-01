@@ -53,6 +53,7 @@ dev_dependencies:
   adaptive_dialog: ^1.8.2
   file_picker: ^5.2.5
   flutter_pickers: ^2.1.9
+  noripple_overscroll: ^0.0.2
   flutter_test:
     sdk: flutter
 

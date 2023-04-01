@@ -256,6 +256,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+  noripple_overscroll:
+    dependency: "direct dev"
+    description:
+      name: noripple_overscroll
+      sha256: "336442339773ff0b75851cd892c8da5bac0f5a2a97f611f9c9b4383388716367"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   path:
     dependency: transitive
     description:
@@ -526,5 +534,5 @@ packages:
     source: hosted
     version: "0.2.0+3"
 sdks:
-  dart: ">=2.18.6 <4.0.0"
+  dart: ">=2.18.6 <3.0.0"
   flutter: ">=3.7.0"

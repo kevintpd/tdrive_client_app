@@ -147,6 +147,7 @@ Future<Folder> fetchMoveFolder(String folderId) async {
   final response = await dio
       .get(server.apiFolders + folderId, queryParameters: {'expand': '~all'});
   if (response.statusCode == 200) {
+    // print(response.data);
     return Folder.fromJson(response.data);
   } else {
     return Folder.fromJson(response.data);

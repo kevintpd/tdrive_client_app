@@ -19,6 +19,7 @@ class FolderView extends StatefulWidget {
   State<FolderView> createState() => _FolderViewState();
 }
 
+
 class _FolderViewState extends State<FolderView> {
   TextEditingController _foldername = TextEditingController();
   late Future<Folder?> folderDetailed;
@@ -52,17 +53,25 @@ class _FolderViewState extends State<FolderView> {
                     return FileTile(file: file);
                   });
 
-              return Column(
-                children: [
-                  Flexible(
-                    flex: 1,
-                    child: folderList,
-                  ),
-                  Flexible(
-                    flex: 2,
-                    child: fileList,
-                  )
-                ],
+              // return Column(
+              //   children: [
+              //     Flexible(
+              //       flex: 1,
+              //       child: folderList,
+              //     ),
+              //     Flexible(
+              //       flex: 2,
+              //       child: fileList,
+              //     )
+              //   ],
+              // );
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    folderList,
+                    fileList
+                  ],
+                ),
               );
             }
             return Center(
