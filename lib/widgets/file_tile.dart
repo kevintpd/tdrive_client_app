@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart' as mymodel;
 import 'package:another_flushbar/flushbar.dart';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../models/models.dart';
 import '../common/network.dart';
 import '../common/utils.dart';
+import '../routes/home/move_file_view.dart';
+import 'package:tdrive_client_app/common/global.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class FileTile extends StatefulWidget {
   File file;
@@ -29,6 +35,7 @@ class _FileTileState extends State<FileTile> {
                 bottomRight: Radius.circular(16.0))),
         child: InkWell(
           onTap: () {
+
             mymodel.showMaterialModalBottomSheet(
               context: context,
               builder: (context) => SingleChildScrollView(
@@ -37,6 +44,10 @@ class _FileTileState extends State<FileTile> {
                   children: [
                     InkWell(
                       onTap: () {
+                        final download_record_string = prefs.getString("download_record");
+                        // final download_record_string = "[]";
+                        // print(download_record_string);
+                        final download_record_list = jsonDecode(download_record_string!);
                         downloadFile(context, widget.file);
                         Navigator.of(context).pop();
                         Flushbar(
@@ -53,6 +64,10 @@ class _FileTileState extends State<FileTile> {
                           duration: const Duration(seconds: 3),
                           flushbarPosition: FlushbarPosition.TOP,
                         ).show(context);
+                        var now = DateTime.now();
+                        download_record_list.add(
+                            {"filename":"${widget.file.name}", "downloadtime":"${now.toString()}", "size":"${widget.file.fileSize.toString()}"});
+                        prefs.setString("download_record", jsonEncode(download_record_list));
                       },
                       child: const ListTile(
                         leading: Icon(Icons.download_rounded),
@@ -103,7 +118,16 @@ class _FileTileState extends State<FileTile> {
                       ),
                     ),
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        showMaterialModalBottomSheet(
+                          backgroundColor: Colors.transparent,
+                          context: context,
+                          builder: (context) => SingleChildScrollView(
+                            controller: ModalScrollController.of(context),
+                            child: MoveFile(moveFile: widget.file),
+                          ),
+                        );
+                      },
                       child: const ListTile(
                         leading: Icon(Icons.drive_file_move_rounded),
                         title: Text("移动"),
@@ -152,7 +176,7 @@ class _FileTileState extends State<FileTile> {
                 leading: const Icon(Icons.file_present_rounded),
                 title: Text(widget.file.name),
                 subtitle: Column(
-                  crossAxisAlignment:CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(widget.file.dateUpload
                         .replaceFirst('T', ' ')

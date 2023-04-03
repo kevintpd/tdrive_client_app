@@ -6,7 +6,7 @@ import 'renameFolderPopsup.dart';
 import '../models/models.dart';
 import '../routes/home/folder_view.dart';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import '../routes/home/move_item_view.dart';
+import '../routes/home/move_folder_view.dart';
 import '../routes/home/make_share.dart';
 import 'move_tile.dart';
 
@@ -163,7 +163,7 @@ class _FolderTileState extends State<FolderTile> {
                     // ),
                     InkWell(
                       onTap: () {
-                        //TODO
+
                         showMaterialModalBottomSheet(
                           backgroundColor: Colors.transparent,
                           context: context,

@@ -37,9 +37,9 @@ Future<Directory> prepareSaveDir() async {
 
 Future<String?> findDownloadPath() async {
   if (Platform.isAndroid) {
-    return "/storage/emulated/0/JDriveDownload/";
+    return "/storage/emulated/0/TDriveDownload/";
   } else {
     var directory = await getDownloadsDirectory();
-    return '${directory!.path}${Platform.pathSeparator}JDriveDownload${Platform.pathSeparator}';
+    return '${directory!.path}${Platform.pathSeparator}TDriveDownload${Platform.pathSeparator}';
   }
 }

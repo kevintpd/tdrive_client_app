@@ -331,7 +331,7 @@ class _MoveItemState extends State<MoveItem> {
                                     Folder newFolderdetail =
                                         Folder.clone(folderDetailed!);
                                     newFolderdetail.subFolders
-                                        .add(widget.viewOfFolder);
+                                        .add(widget.viewOfFolder.id);
                                     updateFolder(
                                         folderDetailed!, newFolderdetail);
                                     updateFolder(

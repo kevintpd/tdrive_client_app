@@ -201,9 +201,8 @@ Future<dynamic> updateFolder(Folder oldFolder, Folder newFolder) async {
       "Name": newFolder.name,
       'ParentFolder': newFolder.parentFolder,
       'SubFolders': newFolder.subFolders,
+      'Files':newFolder.files,
     });
-    print("——————"*10);
-    print(formData.fields);
     final response =
         await dio.put(server.apiFolders + oldFolder.id, data: formData);
 

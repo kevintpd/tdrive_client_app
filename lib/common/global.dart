@@ -20,4 +20,8 @@ Future init() async {
   if (lastLogin == null) {
     prefs.setString('lastLogin', '');
   }
+  var download_record = prefs.getString("download_record");
+  if (download_record == null) {
+    prefs.setString('download_record', '[]');
+  }
 }
