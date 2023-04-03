@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'global.dart';
 
-const serverAddress = "http://192.168.31.154:8000/";
+const serverAddress = "http://172.20.10.3:8000/";
 const apiUserinfo = "user/info/";
 const apiRegister = "register/";
 const apiSendcode = "sendcode/";

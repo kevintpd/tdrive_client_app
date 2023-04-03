@@ -197,10 +197,16 @@ Future<dynamic> renameFolder(String folderid, String name) async {
 
 Future<dynamic> updateFolder(Folder oldFolder, Folder newFolder) async {
   try {
-    FormData formData = FormData.fromMap(
-        {"Name": newFolder.name, 'ParentFolder': newFolder.parentFolder});
+    FormData formData = FormData.fromMap({
+      "Name": newFolder.name,
+      'ParentFolder': newFolder.parentFolder,
+      'SubFolders': newFolder.subFolders,
+    });
+    print("——————"*10);
+    print(formData.fields);
     final response =
         await dio.put(server.apiFolders + oldFolder.id, data: formData);
+
     if (response.statusCode == 200) {
       return response.statusCode;
     }
@@ -253,28 +259,27 @@ Future<dynamic> updateFile(File oldFile, File newFile) async {
 
 Future<List<File>> SearchMyFile(String SearchWord) async {
   List<File> files = [];
-  final response = await dio.get(server.fileSearch, queryParameters: {'searchWord':SearchWord});
+  final response = await dio
+      .get(server.fileSearch, queryParameters: {'searchWord': SearchWord});
   try {
-    if (response.statusCode == 200){
+    if (response.statusCode == 200) {
       response.data.forEach((file) => files.add(File.fromJson(file)));
     }
-  }
-  catch(e){
+  } catch (e) {
     print(e);
   }
   return files;
 }
 
-
 Future<List<File>> SearchInJoinShare(String SearchWord) async {
   List<File> files = [];
-  final response = await dio.get(server.joinshareSearch, queryParameters: {'searchWord':SearchWord});
+  final response = await dio
+      .get(server.joinshareSearch, queryParameters: {'searchWord': SearchWord});
   try {
-    if (response.statusCode == 200){
+    if (response.statusCode == 200) {
       response.data.forEach((file) => files.add(File.fromJson(file)));
     }
-  }
-  catch(e){
+  } catch (e) {
     print(e);
   }
   return files;

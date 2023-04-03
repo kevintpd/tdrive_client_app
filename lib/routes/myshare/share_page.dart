@@ -15,12 +15,12 @@ class _SharePageRouteState extends State<SharePageRoute> {
     return Scaffold(
       appBar: AppBar(
         title: Text("共享"),
-        actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.search_rounded)),
-          IconButton(
-              onPressed: () => Navigator.of(context).pushNamed("updown"),
-              icon: const Icon(Icons.swap_vert)),
-        ],
+        // actions: [
+        //   // IconButton(onPressed: () {}, icon: const Icon(Icons.search_rounded)),
+        //   IconButton(
+        //       onPressed: () => Navigator.of(context).pushNamed("updown"),
+        //       icon: const Icon(Icons.swap_vert)),
+        // ],
       ),
       body: Center(
           child: SizedBox(
